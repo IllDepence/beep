@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+<style>
+#beep {
+  visibility: hidden;
+}
+#button {
+  display: block;
+  width: 200px;
+  height: 200px;
+  background-color: #c33;
+  border-width: 0;
+  border-radius: 15px;
+}
+</style>
+  </head>
+  <body>                                              
+  <audio id="beep" src="beep_550hz_500ms.wav"></audio>
+  <button id="button"></button>
+</body>                                      
+<script>
+  const beep = document.getElementById('beep');
+  const button = document.getElementById('button');
+  let delay = 0
+  let reset = 0;
+
+  button.addEventListener('mousedown', () => {
+    beep.pause();
+    beep.currentTime = 0;
+
+    console.log(delay);
+
+    if (delay < 150 && reset < 1) {
+      delay += delay < 80 ? 4 : 1;
+    } else {
+      delay = 0;
+      reset += 1;
+      if (reset > 2) {
+        button.style.backgroundColor = '#aaa';
+      }
+    }
+
+    setTimeout(() => {
+      beep.play();
+    }, delay);
+  });
+
+  button.addEventListener('mouseup', stopBeep);
+  button.addEventListener('mouseleave', stopBeep);
+
+  function stopBeep() {
+    beep.pause();
+    beep.currentTime = 0;
+  }
+</script>
+</html>
