@@ -2,16 +2,21 @@
 <html>
   <head>
 <style>
-#beep {
-  visibility: hidden;
+button {
+  border: none;
+}
+button:focus {
+  outline: none;
 }
 #button {
   display: block;
   width: 200px;
   height: 200px;
   background-color: #c33;
-  border-width: 0;
   border-radius: 15px;
+}
+#beep {
+  visibility: hidden;
 }
 </style>
   </head>
@@ -22,14 +27,19 @@
 <script>
   const beep = document.getElementById('beep');
   const button = document.getElementById('button');
-  let delay = 0
+  let delay =148;
   let reset = 0;
 
-  button.addEventListener('mousedown', () => {
+  button.addEventListener('mousedown', startBeep);
+  button.addEventListener('touchstart', startBeep);
+
+  button.addEventListener('touchend', stopBeep);
+  button.addEventListener('mouseup', stopBeep);
+  button.addEventListener('mouseleave', stopBeep);
+
+  function startBeep() {
     beep.pause();
     beep.currentTime = 0;
-
-    console.log(delay);
 
     if (delay < 150 && reset < 1) {
       delay += delay < 80 ? 4 : 1;
@@ -44,10 +54,7 @@
     setTimeout(() => {
       beep.play();
     }, delay);
-  });
-
-  button.addEventListener('mouseup', stopBeep);
-  button.addEventListener('mouseleave', stopBeep);
+  }
 
   function stopBeep() {
     beep.pause();
